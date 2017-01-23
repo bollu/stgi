@@ -10,10 +10,9 @@ module Stg.Language.Prettyprint (
 
 
 
-import           Data.Text                    (Text)
-import qualified Data.Text                    as T
-import           Prelude                      hiding ((<$>))
-import           Text.PrettyPrint.ANSI.Leijen
+import Data.Text                                 (Text)
+import Data.Text.Prettyprint.Doc
+import Data.Text.Prettyprint.Doc.Render.Terminal
 
 
 
@@ -27,5 +26,5 @@ prettyprintPlain :: Pretty a => a -> Text
 prettyprintPlain = prettyprintModified plain
 
 prettyprintModified :: Pretty a => (Doc -> Doc) -> a -> Text
-prettyprintModified modifier input =
-    T.pack (displayS (renderPretty 0.4 1000 (modifier (pretty input))) "")
+prettyprintModified modifier input
+  = renderStrict (layoutPretty (RibbonFraction 0.4) (PageWidth 1000) (modifier (pretty input)))

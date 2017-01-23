@@ -1,6 +1,13 @@
 resolver: lts-7.17
 packages:
     - '.'
+    - location:
+        git: https://github.com/quchen/prettyprinter
+        commit: 85f2ffec4d1eb9e1e0e8976fd7dc08e98f31399c
+      subdirs:
+          - wl-pprint-ansi
+          - wl-pprint
+      extra-dep: true
 extra-deps: []
 flags: {}
 extra-package-dbs: []

@@ -70,7 +70,8 @@ library
                      , Stg.Util
   ghc-options:         -Wall
   build-depends:       base >= 4.8 && < 5
-                     , ansi-wl-pprint
+                     , wl-pprint
+                     , wl-pprint-ansi
                      , containers       >= 0.5
                      , deepseq          >= 1.4
                      , parsers          >= 0.12
@@ -147,7 +148,8 @@ test-suite testsuite
                      , Test.UtilTH
   build-depends:       base
                      , stgi
-                     , ansi-wl-pprint
+                     , wl-pprint
+                     , wl-pprint-ansi
                      , containers >= 0.5
                      , deepseq >= 1.4
                      , semigroups >= 0.16

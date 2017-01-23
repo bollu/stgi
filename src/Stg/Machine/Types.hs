@@ -34,15 +34,14 @@ module Stg.Machine.Types (
 
 import           Control.DeepSeq
 import           Data.Foldable
-import           Data.Map                     (Map)
-import qualified Data.Map                     as M
+import           Data.Map                  (Map)
+import qualified Data.Map                  as M
 import           Data.Monoid
-import qualified Data.Semigroup               as Semigroup
-import           Data.Set                     (Set)
-import           Data.Text                    (Text)
-import qualified Data.Text                    as T
+import qualified Data.Semigroup            as Semigroup
+import           Data.Set                  (Set)
+import           Data.Text                 (Text)
+import           Data.Text.Prettyprint.Doc
 import           GHC.Generics
-import           Text.PrettyPrint.ANSI.Leijen hiding ((<>))
 import           Text.Printf
 
 import Data.Stack
@@ -99,8 +98,8 @@ data StgStateStyle = StgStateStyle
 -- | Colour definitions used in this module.
 style :: StgStateStyle
 style = StgStateStyle
-    { headline       = dullblue
-    , address        = dullcyan
+    { headline       = color SBlue
+    , address        = color SCyan
     , addressCore    = underline
     , closureType    = bold
     , stackFrameType = bold
@@ -125,7 +124,7 @@ prettyStack Empty = "(empty)"
 prettyStack stack = (align . vsep) prettyFrames
   where
     prettyFrame frame i = hsep
-        [ headline style (int i <> ".")
+        [ headline style (pretty i <> ".")
         , align (pretty frame) ]
     prettyFrames = zipWith prettyFrame (toList stack) (reverse [1..length stack])
 
@@ -163,7 +162,7 @@ newtype MemAddr = MemAddr Int
 instance Pretty MemAddr where
     pretty (MemAddr addr) = address style ("0x" <> addressCore style (hexAddr addr))
       where
-        hexAddr = text . printf "%02x"
+        hexAddr = (pretty :: String -> Doc) . printf "%02x"
 
 -- | A value of the STG machine.
 data Value = Addr MemAddr | PrimInt Integer
@@ -382,7 +381,7 @@ pprArity = \case
     1 -> "unary"
     2 -> "binary"
     3 -> "ternary"
-    n -> int n <> "-ary"
+    n -> pretty n <> "-ary"
 
 -- | Used to store meta-information about state transitions in order to be
 -- rendered as a helpful hint.
@@ -477,7 +476,7 @@ instance Pretty InfoDetail where
             , "Please report this to the project maintainers!" ]
 
         Detail_GarbageCollected algorithm deadAddrs movedAddrs -> mconcat
-            [ [ "Algorithm: " <> string (T.unpack algorithm) ]
+            [ [ "Algorithm: " <> pretty algorithm ]
             , [ "Removed old address" <> pluralES deadAddrs <> ":" <+> pprAddrs deadAddrs ]
             , [ "Moved alive address" <> pluralES movedAddrs <> ":" <+> pprMoved movedAddrs
                 | not (M.null movedAddrs) ]]
@@ -542,7 +541,7 @@ instance Pretty HeapObject where
       where
         pprHo = \case
             HClosure closure -> align (pretty closure)
-            Blackhole tick   -> "(from step" <+> integer tick <> ")"
+            Blackhole tick   -> "(from step" <+> pretty tick <> ")"
         typeOf = closureType style . \case
             HClosure (Closure lf _free) -> pretty (classify lf)
             Blackhole _ -> "Blackhole"

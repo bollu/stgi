@@ -17,9 +17,9 @@ module Stg.Util (
 import           Data.Bifunctor
 import           Data.Monoid
 import           Data.String
-import           Data.Text                    (Text)
-import qualified Data.Text                    as T
-import           Text.PrettyPrint.ANSI.Leijen hiding ((<>))
+import           Data.Text                 (Text)
+import qualified Data.Text                 as T
+import           Data.Text.Prettyprint.Doc
 
 
 

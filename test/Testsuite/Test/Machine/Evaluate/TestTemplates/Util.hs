@@ -9,9 +9,9 @@ module Test.Machine.Evaluate.TestTemplates.Util (
 
 
 import           Data.Monoid
-import           Data.Text                    (Text)
-import qualified Data.Text                    as T
-import           Text.PrettyPrint.ANSI.Leijen (Doc)
+import           Data.Text                 (Text)
+import qualified Data.Text                 as T
+import           Data.Text.Prettyprint.Doc
 
 import Stg.Language
 import Stg.Machine.Env

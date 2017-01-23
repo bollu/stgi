@@ -28,12 +28,12 @@ module Stg.Parser.QuasiQuoter (
 
 import           Data.Either
 import           Data.Monoid
-import           Data.Text                    (Text)
-import qualified Data.Text                    as T
+import           Data.Text                 (Text)
+import qualified Data.Text                 as T
+import           Data.Text.Prettyprint.Doc
 import           Language.Haskell.TH
 import           Language.Haskell.TH.Lift
 import           Language.Haskell.TH.Quote
-import           Text.PrettyPrint.ANSI.Leijen hiding ((<>))
 
 import           Stg.Language.Prettyprint
 import           Stg.Parser.Parser        (StgParser, parse)
@@ -95,7 +95,7 @@ stg = defaultQuoter { quoteExp = expQuoter }
     -- generated expression on success.
     quoteAs :: Lift ast => Text -> Parser.StgParser ast -> Text -> Either Text (Q Exp)
     quoteAs parserName parser input = fmap lift (case Parser.parse parser input of
-        Left err -> Left (prettyprint ("  -" <+> text (T.unpack parserName) <> ":" <+> plain (align err)))
+        Left err -> Left (prettyprint ("  -" <+> pretty parserName <> ":" <+> plain (align err)))
         Right r -> Right r )
 
 -- | Build a quasiquoter from a 'Parser'.

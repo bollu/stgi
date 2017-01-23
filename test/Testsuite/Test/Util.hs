@@ -16,7 +16,7 @@ module Test.Util (
 
 
 import Data.Ratio
-import Text.PrettyPrint.ANSI.Leijen hiding ((<$>))
+import Data.Text.Prettyprint.Doc
 
 import Test.QuickCheck
 import Test.UtilTH

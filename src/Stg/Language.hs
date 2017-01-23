@@ -41,18 +41,18 @@ module Stg.Language (
 
 
 import           Control.DeepSeq
-import           Data.List.NonEmpty           (NonEmpty (..))
-import qualified Data.List.NonEmpty           as NonEmpty
-import           Data.Map                     (Map)
-import qualified Data.Map                     as M
-import           Data.Monoid                  hiding (Alt)
-import qualified Data.Semigroup               as Semigroup
-import           Data.Text                    (Text)
-import qualified Data.Text                    as T
+import           Data.List.NonEmpty        (NonEmpty (..))
+import qualified Data.List.NonEmpty        as NonEmpty
+import           Data.Map                  (Map)
+import qualified Data.Map                  as M
+import           Data.Monoid               hiding (Alt)
+import qualified Data.Semigroup            as Semigroup
+import           Data.Text                 (Text)
+import qualified Data.Text                 as T
+import           Data.Text.Prettyprint.Doc
 import           GHC.Exts
 import           GHC.Generics
 import           Language.Haskell.TH.Lift
-import           Text.PrettyPrint.ANSI.Leijen hiding ((<>))
 
 import Stg.Util
 
@@ -82,10 +82,10 @@ data StgAstStyle = StgAstStyle
 style :: StgAstStyle
 style = StgAstStyle
     { keyword     = id
-    , prim        = dullgreen
-    , variable    = dullyellow
-    , constructor = dullmagenta
-    , semicolon   = dullwhite
+    , prim        = colorDull SGreen
+    , variable    = colorDull SYellow
+    , constructor = colorDull SMagenta
+    , semicolon   = colorDull SWhite
     }
 
 
@@ -121,7 +121,7 @@ instance Monoid Binds where
     mappend = (Semigroup.<>)
 
 instance Semigroup.Semigroup Binds where
-    Binds x <> Binds y = Binds (x <> y)
+    Binds x <> Binds y = Binds (y <> x)
 
 instance Show Binds where
     show (Binds binds) = "(Binds " <> show (M.assocs binds) <> ")"
@@ -372,7 +372,7 @@ instance Pretty DefaultAlt where
         DefaultBound var expr -> pretty var <+> "->" <+> pretty expr
 
 instance Pretty Literal where
-    pretty (Literal i) = prim style (integer i <> "#")
+    pretty (Literal i) = prim style (pretty i <> "#")
 
 instance Pretty PrimOp where
     pretty op = prim style (case op of
@@ -389,7 +389,7 @@ instance Pretty PrimOp where
         Neq -> "/=#" )
 
 instance Pretty Var where
-    pretty (Var name) = variable style (string (T.unpack name))
+    pretty (Var name) = variable style (pretty name)
     prettyList = spaceSep
 
 instance Pretty Atom where
@@ -399,7 +399,7 @@ instance Pretty Atom where
     prettyList = spaceSep
 
 instance Pretty Constr where
-    pretty (Constr name) = constructor style (string (T.unpack name))
+    pretty (Constr name) = constructor style (pretty name)
 
 instance NFData Program
 instance NFData Binds

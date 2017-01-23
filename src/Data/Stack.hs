@@ -13,13 +13,14 @@ module Data.Stack (
 
 
 import           Control.DeepSeq
-import           Data.Foldable                as F
+import           Data.Foldable             as F
 import           Data.Monoid
-import qualified Data.Semigroup               as Semigroup
-import qualified GHC.Exts                     as OL
-import           Prelude                      hiding (span)
-import qualified Prelude                      as P
-import           Text.PrettyPrint.ANSI.Leijen hiding (list, (<>))
+import qualified Data.Semigroup            as Semigroup
+import           Data.Text.Prettyprint.Doc
+import qualified GHC.Exts                  as OL
+import           Prelude                   hiding (span)
+import qualified Prelude                   as P
+
 
 
 -- | The usual stack data structure.
@@ -60,7 +61,7 @@ instance NFData a => NFData (Stack a) where
 -- | Push a list of items onto the stack. The first item will be at the
 -- top of the stack.
 (<>>) :: [a] -> Stack a -> Stack a
-list <>> stack = foldr (:<) stack list
+xs <>> stack = foldr (:<) stack xs
 
 -- | For each list element, pop one element off the 'Stack'. Fail if not enough
 -- elements are present.

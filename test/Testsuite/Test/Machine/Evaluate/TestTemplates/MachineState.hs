@@ -11,12 +11,12 @@ module Test.Machine.Evaluate.TestTemplates.MachineState (
 
 
 
-import qualified Data.List                    as L
-import qualified Data.List.NonEmpty           as NE
+import qualified Data.List                 as L
+import qualified Data.List.NonEmpty        as NE
 import           Data.Monoid
-import           Data.Text                    (Text)
-import qualified Data.Text                    as T
-import           Text.PrettyPrint.ANSI.Leijen hiding ((<>))
+import           Data.Text                 (Text)
+import qualified Data.Text                 as T
+import           Data.Text.Prettyprint.Doc
 
 import Stg.Language
 import Stg.Language.Prettyprint

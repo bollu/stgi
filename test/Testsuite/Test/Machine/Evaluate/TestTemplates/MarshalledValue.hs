@@ -16,10 +16,10 @@ module Test.Machine.Evaluate.TestTemplates.MarshalledValue (
 
 
 
-import           Data.List.NonEmpty           (NonEmpty (..))
-import           Data.Text                    (Text)
-import qualified Data.Text                    as T
-import           Text.PrettyPrint.ANSI.Leijen hiding ((<>))
+import           Data.List.NonEmpty        (NonEmpty (..))
+import           Data.Text                 (Text)
+import qualified Data.Text                 as T
+import           Data.Text.Prettyprint.Doc
 
 import Stg.Language
 import Stg.Language.Prettyprint

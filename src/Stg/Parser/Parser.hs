@@ -47,17 +47,17 @@ module Stg.Parser.Parser (
 
 import           Control.Applicative
 import           Control.Monad
-import           Data.Char                    (isSpace)
-import           Data.List                    as L
-import qualified Data.List.NonEmpty           as NonEmpty
-import qualified Data.Map.Strict              as M
+import           Data.Char                   (isSpace)
+import           Data.List                   as L
+import qualified Data.List.NonEmpty          as NonEmpty
+import qualified Data.Map.Strict             as M
 import           Data.Maybe
 import           Data.Monoid
-import           Data.Text                    (Text)
-import qualified Data.Text                    as T
+import           Data.Text                   (Text)
+import qualified Data.Text                   as T
+import           Data.Text.Prettyprint.Doc   (Doc)
 import           Text.Parser.Token.Highlight
-import           Text.PrettyPrint.ANSI.Leijen (Doc)
-import           Text.Trifecta                as Trifecta
+import           Text.Trifecta               as Trifecta
 
 import Stg.Language
 
@@ -71,7 +71,7 @@ import Stg.Language
 parse :: StgParser ast -> Text -> Either Doc ast
 parse (StgParser p) input = case parseString (whiteSpace *> p <* eof) mempty (T.unpack input) of
     Success a -> Right a
-    Failure ErrInfo{ _errDoc = e } -> Left e
+    Failure ErrInfo{ _errDoc = e } -> Left (pretty (show e))
 
 -- | Skip a certain token. Useful to consume, but not otherwise use, certain
 -- tokens.

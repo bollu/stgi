@@ -10,9 +10,9 @@ module Test.StaticAnalysis (tests) where
 
 import           Data.Foldable
 import           Data.Monoid
-import           Data.Set                     (Set)
-import qualified Data.Text                    as T
-import           Text.PrettyPrint.ANSI.Leijen hiding ((<>))
+import           Data.Set                  (Set)
+import qualified Data.Text                 as T
+import           Data.Text.Prettyprint.Doc
 
 import Stg.Language
 import Stg.Language.Prettyprint
